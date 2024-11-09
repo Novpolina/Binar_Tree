@@ -10,4 +10,4 @@ obj/tree.o: tree.cpp
 	g++ -c tree.cpp $(CFLAGS)
 
 clean:
-	rm *.o t
+	rm *.o t *.dot
