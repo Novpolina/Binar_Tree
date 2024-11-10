@@ -100,17 +100,17 @@ void write_dot(node_t* root, FILE* file) {
     }
 
     // Запись текущего узла
-    fprintf(file, "    node_%d [label=\"%d\"];\n", root, root->data);
+    fprintf(file, "\tnode_%d [shape = record, color = white, label=\"{{%d} | {<f1> left | <f2> right}}\"];\n", root, root->data);
 
     // Если у узла есть левое поддерево, запишем связь
     if (root->left) {
-        fprintf(file, "    node_%d -> node_%d;\n", root, root->left);
+        fprintf(file, "\tnode_%d:<f1> -> node_%d;\n", root, root->left);
         write_dot(root->left, file);
     }
 
     // Если у узла есть правое поддерево, запишем связь
     if (root->right) {
-        fprintf(file, "    node_%d -> node_%d;\n", root, root->right);
+        fprintf(file, "\tnode_%d:<f2> -> node_%d;\n", root, root->right);
         write_dot(root->right, file);
     }
 }
@@ -124,7 +124,7 @@ void export_tree_to_dot(node_t* root, const char* filename) {
     }
 
     // Запись заголовка DOT файла
-    fprintf(file, "digraph G {\n");
+    fprintf(file, "digraph G {\n\tbgcolor = \"white:purple\";\n");
 
     // Запись дерева
     write_dot(root, file);
@@ -133,5 +133,6 @@ void export_tree_to_dot(node_t* root, const char* filename) {
     fprintf(file, "}\n");
 
     fclose(file);
+    system("dot -Tpng tree.dot > tree.png");
 }
 
